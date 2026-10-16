@@ -53,7 +53,7 @@
 ├── README.md
 ├── pyproject.toml
 ├── data/
-├── src/obj_analyzer/
+├── obj_analyzer/
 │   ├── __init__.py
 │   ├── __main__.py
 │   ├── parser.py
