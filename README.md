@@ -18,7 +18,7 @@
 ├── ROADMAP.md           ← программа обучения: все проекты и темы
 ├── CLAUDE.md            ← инструкции для Claude (роль наставника)
 ├── docs/
-│   ├── setup-windows.md ← установка инструментов
+│   ├── setup.md         ← установка инструментов (macOS, Windows)
 │   ├── workflow.md      ← как сдавать задачи: ветки, Pull Request, ревью
 │   └── notes/           ← мои конспекты
 ├── python/

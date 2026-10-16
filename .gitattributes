@@ -1,0 +1,17 @@
+# Нормализация окончаний строк: в репозитории всегда LF
+* text=auto eol=lf
+
+# Файлы Visual Studio — CRLF
+*.sln    text eol=crlf
+*.csproj text eol=crlf
+
+# Бинарные файлы
+*.png  binary
+*.jpg  binary
+*.pdf  binary
+*.ipt  binary
+*.iam  binary
+*.idw  binary
+*.dwg  binary
+*.step binary
+*.stp  binary
