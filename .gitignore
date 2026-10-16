@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.ipynb_checkpoints/
+dist/
+build/
+
+# C# / Visual Studio
+bin/
+obj/
+.vs/
+*.user
+*.suo
+packages/
+TestResults/
+
+# IDE / OS
+.idea/
+.vscode/*
+!.vscode/extensions.json
+Thumbs.db
+Desktop.ini
+.DS_Store
