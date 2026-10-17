@@ -49,6 +49,11 @@ def polygon_area(vertices: list[Vec3]) -> float:
 
     return area
 
+
 def surface_area(vertices: list[Vec3], faces: list[list[int]]) -> float:
     area: float = 0.0
+
+    for face in faces:
+        area += polygon_area([vertices[i] for i in face])
+
     return area
