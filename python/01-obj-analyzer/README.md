@@ -54,6 +54,17 @@
 
 - Тесты на pytest по файлам из `data/`.
 - `pyproject.toml`, запуск утилиты как команды.
+- **Фасад** — внешний класс-обёртка для удобного использования как библиотеки:
+  ```python
+  model = ObjModel.load("three_shapes.obj")
+  model.bounding_box()
+  model.volume()
+  model.mass(density=7850)
+  for part in model.parts:
+      print(part.name, part.mass(density=7850))
+  ```
+  Фасад только делегирует работу парсеру и `geometry.py`, своей логики не содержит (не превращать в «божественный объект»).
+  Проектировать после того, как готовы все расчёты этапов 1–2.
 
 ## Ожидаемая структура (к концу этапа 3)
 
