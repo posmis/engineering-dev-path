@@ -1,13 +1,15 @@
 # main.py
 import sys
-import obj_model
-
+from parser import parse_obj_file
+from obj_model import ObjData
 
 def main() -> None:
-    with open(sys.argv[1], "r", encoding="UTF-8") as file:
-        for line in file:
-            print(line.strip())
+    opened_object = parse_obj_file(sys.argv[1])
+    print(len(opened_object.v))
+    print(len(opened_object.vt))
+    print(len(opened_object.vn))
 
+    print(opened_object.vt)
 
 if __name__ == "__main__":
     main()

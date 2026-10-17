@@ -19,6 +19,6 @@ class ObjMesh:
 class ObjData:
     file_name: str
     v: list[tuple[float, float, float]]
-    vt: list[tuple[float, float]]
+    vt: list[tuple[float, float, float]]
     vn: list[tuple[float, float, float]]
     meshes: list[ObjMesh]
