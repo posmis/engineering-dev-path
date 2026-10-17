@@ -11,5 +11,7 @@ def main() -> None:
 
     print(opened_object.vt)
 
+    print(opened_object.meshes)
+
 if __name__ == "__main__":
     main()
