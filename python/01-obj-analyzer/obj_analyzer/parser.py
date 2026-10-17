@@ -23,7 +23,7 @@ def parse_obj_file(file_name: str) -> ObjData:
             elif parts[0] == "v":
                 vertices.append(tuple(map(float, parts[1:4])))
             elif parts[0] == "vt":
-                vertex_textures.append(tuple(map(float, parts[1:3])))
+                vertex_textures.append(tuple(map(float, parts[1:4])))
             elif parts[0] == "vn":
                 vertex_normals.append(tuple(map(float, parts[1:4])))
             elif parts[0] == "f":
