@@ -23,7 +23,7 @@ def parse_obj_file(file_name: str) -> ObjData:
             elif parts[0] == "v":
                 coordinates_count = len(parts[1:])
                 if coordinates_count < 3:
-                    raise ValueError(f"Invalid vertex coordinates count: {coordinates_count}, must be 3")
+                    raise ValueError(f"Invalid vertex coordinates count: {coordinates_count}, at least 3")
                 vertices.append(tuple(map(float, parts[1:4])))
             elif parts[0] == "vt":
                 vt = list(map(float, parts[1:4]))
@@ -32,7 +32,7 @@ def parse_obj_file(file_name: str) -> ObjData:
             elif parts[0] == "vn":
                 coordinates_count = len(parts[1:])
                 if coordinates_count < 3:
-                    raise ValueError(f"Invalid normal vertex coordinates count: {coordinates_count}, must be 3")
+                    raise ValueError(f"Invalid normal vertex coordinates count: {coordinates_count}, at least 3")
                 vertex_normals.append(tuple(map(float, parts[1:4])))
             elif parts[0] == "f":
                 current_mesh.faces.append(
