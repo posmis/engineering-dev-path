@@ -5,6 +5,7 @@ type Vec3 = tuple[float, float, float]
 
 ORIGIN: Vec3 = (0.0, 0.0, 0.0)
 
+
 def bounding_box(vertices: list[Vec3]) -> tuple[Vec3, Vec3]:
     if not vertices:
         raise ValueError("Mesh has no vertices")

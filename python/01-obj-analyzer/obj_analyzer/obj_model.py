@@ -24,5 +24,5 @@ class ObjData:
     meshes: list[ObjMesh]
 
 
-def face_indices(faces : list[list[FaceVertex]]) -> list[list[int]]:
+def face_indices(faces: list[list[FaceVertex]]) -> list[list[int]]:
     return [[face_vertex.v for face_vertex in face] for face in faces]

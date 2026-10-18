@@ -5,7 +5,8 @@ from parser import parse_obj_file
 from geometry import bounding_box_size, surface_area, object_volume
 from obj_model import face_indices
 
-STEEL_DENSITY = 7.850 # g/sm3
+STEEL_DENSITY = 7.850  # g/sm3
+
 
 def main() -> None:
     file_name = sys.argv[1]

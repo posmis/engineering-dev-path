@@ -30,8 +30,8 @@ def parse_obj_file(file_name: str) -> ObjData:
                 current_mesh.faces.append(parse_face(parts[1:]))
     meshes = [mesh for mesh in meshes if mesh.faces]
 
-
     return ObjData(file_name, vertices, vertex_textures, vertex_normals, meshes)
+
 
 def parse_face(parts: list[str]) -> list[FaceVertex]:
     face = []
@@ -44,6 +44,7 @@ def parse_face(parts: list[str]) -> list[FaceVertex]:
 
         face.append(FaceVertex(v, vt, vn))
     return face
+
 
 def parse_index(text: str) -> int | None:
     if not text:
