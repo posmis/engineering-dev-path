@@ -2,8 +2,8 @@
 import argparse
 
 from parser import parse_obj_file
-from geometry import bounding_box_size, surface_area, object_volume
-from obj_model import face_indices, scale_vertices
+from geometry import bounding_box_size, surface_area, object_volume, scale_vertices
+from obj_model import face_indices
 
 STEEL_DENSITY = 7.850  # g/cm3
 MM3_TO_CM3 = 1e-3
@@ -11,15 +11,20 @@ UNIT_TO_MM = {"mm": 1.0, "cm": 10.0, "dm": 100.0, "m": 1000.0}
 
 
 def positive_density_float(value: str) -> float:
-    fvalue = float(value)
-    if fvalue <= 0:
-        raise argparse.ArgumentTypeError(f"Density must be positive")
-    return fvalue
+    try:
+        fvalue = float(value)
+        if fvalue <= 0:
+            raise argparse.ArgumentTypeError("Density must be positive")
+        return fvalue
+    except ValueError:
+        raise argparse.ArgumentTypeError("Density must float number")
 
 
 def main() -> None:
-    arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument("file_name", type=str, help="file name")
+    arg_parser = argparse.ArgumentParser(
+        description="Calculate dimensions, surface area, volume and mass of an OBJ mesh."
+    )
+    arg_parser.add_argument("file_name", help="path to the .obj file")
     arg_parser.add_argument("-d", "--density", type=positive_density_float,
                             default=STEEL_DENSITY,
                             help="Density of opened object. Default value is density of steel: 7.85 g/cm3.")

@@ -1,5 +1,9 @@
 # geometry.py
-from vector import *
+from vector import Vec3, ORIGIN, vector_dot, vector_cross, vector_sub, vector_len
+
+
+def scale_vertices(vertices: list[Vec3], factor: float) -> list[Vec3]:
+    return [(x * factor, y * factor, z * factor) for x, y, z in vertices]
 
 
 def bounding_box(vertices: list[Vec3]) -> tuple[Vec3, Vec3]:

@@ -2,7 +2,7 @@
 from dataclasses import dataclass
 from typing import NamedTuple
 
-from vector import *
+from vector import Vec3
 
 
 class FaceVertex(NamedTuple):
@@ -28,7 +28,3 @@ class ObjData:
 
 def face_indices(faces: list[list[FaceVertex]]) -> list[list[int]]:
     return [[face_vertex.v for face_vertex in face] for face in faces]
-
-
-def scale_vertices(vertices: list[Vec3], factor: float) -> list[Vec3]:
-    return [(x * factor, y * factor, z * factor) for x, y, z in vertices]
