@@ -2,6 +2,8 @@
 from dataclasses import dataclass
 from typing import NamedTuple
 
+from vector import *
+
 
 class FaceVertex(NamedTuple):
     v: int  # индекс в списке вершин (с 0)
@@ -18,11 +20,15 @@ class ObjMesh:
 @dataclass
 class ObjData:
     file_name: str
-    v: list[tuple[float, float, float]]
-    vt: list[tuple[float, float, float]]
-    vn: list[tuple[float, float, float]]
+    v: list[Vec3]
+    vt: list[Vec3]
+    vn: list[Vec3]
     meshes: list[ObjMesh]
 
 
 def face_indices(faces: list[list[FaceVertex]]) -> list[list[int]]:
     return [[face_vertex.v for face_vertex in face] for face in faces]
+
+
+def scale_vertices(vertices: list[Vec3], factor: float) -> list[Vec3]:
+    return [(x * factor, y * factor, z * factor) for x, y, z in vertices]

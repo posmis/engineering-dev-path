@@ -1,27 +1,39 @@
 # main.py
-import sys
 import argparse
 
 from parser import parse_obj_file
 from geometry import bounding_box_size, surface_area, object_volume
-from obj_model import face_indices
+from obj_model import face_indices, scale_vertices
 
 STEEL_DENSITY = 7.850  # g/cm3
 MM3_TO_CM3 = 1e-3
+UNIT_TO_MM = {"mm": 1.0, "cm": 10.0, "dm": 100.0, "m": 1000.0}
+
+
+def positive_density_float(value: str) -> float:
+    fvalue = float(value)
+    if fvalue <= 0:
+        raise argparse.ArgumentTypeError(f"Density must be positive")
+    return fvalue
 
 
 def main() -> None:
-    arg_parcer = argparse.ArgumentParser()
-    arg_parcer.add_argument("file_name", type=str, help="file name")
-    arg_parcer.add_argument("--density", type=float,
-                            help="Density of opened object. Default value is density of steel: 7.85 g/cm3.",
-                            default=STEEL_DENSITY)
-    args = arg_parcer.parse_args()
+    arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument("file_name", type=str, help="file name")
+    arg_parser.add_argument("-d", "--density", type=positive_density_float,
+                            default=STEEL_DENSITY,
+                            help="Density of opened object. Default value is density of steel: 7.85 g/cm3.")
+    arg_parser.add_argument("-u", "--unit", choices=UNIT_TO_MM.keys(), type=str,
+                            default="mm",
+                            help="Unit of opened object. Default value is mm.")
+    args = arg_parser.parse_args()
 
     file_name = args.file_name
     density = args.density
+    scale_factor = UNIT_TO_MM[args.unit]
     try:
         opened_object = parse_obj_file(file_name)
+        opened_object.v = scale_vertices(opened_object.v, scale_factor)
 
         print("Vertices:", len(opened_object.v))
         print("Texture vertices:", len(opened_object.vt))
