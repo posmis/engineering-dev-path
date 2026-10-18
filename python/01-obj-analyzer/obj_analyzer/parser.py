@@ -21,10 +21,18 @@ def parse_obj_file(file_name: str) -> ObjData:
                 current_mesh = ObjMesh(name, [])
                 meshes.append(current_mesh)
             elif parts[0] == "v":
+                cords_count = len(parts[1:])
+                if cords_count < 3:
+                    raise ValueError(f"Invalid vertex cords count: {cords_count}, must be 3")
                 vertices.append(tuple(map(float, parts[1:4])))
             elif parts[0] == "vt":
-                vertex_textures.append(tuple(map(float, parts[1:4])))
+                vt = list(map(float, parts[1:4]))
+                vt += [0.0] * (3 - len(vt))
+                vertex_textures.append(tuple(vt))
             elif parts[0] == "vn":
+                cords_count = len(parts[1:])
+                if cords_count < 3:
+                    raise ValueError(f"Invalid normal vertex cords count: {cords_count}, must be 3")
                 vertex_normals.append(tuple(map(float, parts[1:4])))
             elif parts[0] == "f":
                 current_mesh.faces.append(

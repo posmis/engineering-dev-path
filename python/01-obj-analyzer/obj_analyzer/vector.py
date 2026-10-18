@@ -1,4 +1,5 @@
 # vector.py
+
 import math
 
 type Vec3 = tuple[float, float, float]

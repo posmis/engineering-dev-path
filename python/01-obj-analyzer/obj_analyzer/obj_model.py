@@ -1,4 +1,5 @@
 # obj_model.py
+
 from dataclasses import dataclass
 from typing import NamedTuple
 
@@ -13,7 +14,7 @@ class FaceVertex(NamedTuple):
 
 @dataclass
 class ObjMesh:
-    object_name: str | None
+    object_name: str
     faces: list[list[FaceVertex]]
 
 

@@ -1,4 +1,5 @@
 # geometry.py
+
 from vector import Vec3, ORIGIN, vector_dot, vector_cross, vector_sub, vector_len
 
 

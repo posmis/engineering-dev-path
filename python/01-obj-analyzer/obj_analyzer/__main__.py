@@ -1,5 +1,7 @@
-# main.py
+# __main__.py
+
 import argparse
+import sys
 
 from parser import parse_obj_file
 from geometry import bounding_box_size, surface_area, object_volume, scale_vertices
@@ -28,7 +30,7 @@ def main() -> None:
     arg_parser.add_argument("-d", "--density", type=positive_density_float,
                             default=STEEL_DENSITY,
                             help="Density of opened object. Default value is density of steel: 7.85 g/cm3.")
-    arg_parser.add_argument("-u", "--unit", choices=UNIT_TO_MM.keys(), type=str,
+    arg_parser.add_argument("-u", "--unit", choices=UNIT_TO_MM.keys(),
                             default="mm",
                             help="Unit of opened object. Default value is mm.")
     args = arg_parser.parse_args()
@@ -39,12 +41,15 @@ def main() -> None:
     try:
         opened_object = parse_obj_file(file_name)
         opened_object.v = scale_vertices(opened_object.v, scale_factor)
+        dx, dy, dz = bounding_box_size(opened_object.v)
 
         print("Vertices:", len(opened_object.v))
         print("Texture vertices:", len(opened_object.vt))
         print("Normal vertices:", len(opened_object.vn))
-        print("Dimensions:", " x ".join(map(str, bounding_box_size(opened_object.v))), "mm")
+        print(f"Dimensions: {dx:.2f} x {dy:.2f} x {dz:.2f} mm")
         print()
+
+        print(opened_object.vt)
 
         total_area: float = 0.0
         total_volume: float = 0.0
@@ -53,6 +58,13 @@ def main() -> None:
             indices = face_indices(mesh.faces)
             area = surface_area(opened_object.v, indices)
             volume = object_volume(opened_object.v, indices)
+
+            if volume < 0:
+                print(
+                    f"Warning: Volume value of {mesh.object_name} is negative, normals are probably inverted, value corrected",
+                    file=sys.stderr)
+                volume = -volume
+
             mass = volume * MM3_TO_CM3 * density
 
             total_area += area
@@ -70,9 +82,9 @@ def main() -> None:
         print()
 
     except FileNotFoundError:
-        print(f"Error: file not found: {file_name}")
+        print(f"Error: File not found: {file_name}", file=sys.stderr)
     except ValueError as error:
-        print(f"Error: {error}")
+        print(f"Error: {error}", file=sys.stderr)
 
 
 if __name__ == "__main__":
