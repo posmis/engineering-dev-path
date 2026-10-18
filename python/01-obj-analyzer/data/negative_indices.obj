@@ -1,0 +1,12 @@
+# Right tetrahedron with 10 mm legs, faces use NEGATIVE (relative) indices.
+# -1 = last vertex read so far, -2 = the one before, etc.
+# Expected: same as tetrahedron.obj - area 236.60 mm^2, volume 166.67 mm^3.
+o Tetrahedron negative
+v 0 0 0
+v 10 0 0
+v 0 10 0
+v 0 0 10
+f -4 -2 -3
+f -4 -3 -1
+f -4 -1 -2
+f -3 -2 -1

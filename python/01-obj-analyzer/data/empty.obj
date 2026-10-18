@@ -1,0 +1,2 @@
+# Empty mesh: no vertices, no faces.
+# Expected: a clear error message instead of a traceback.
