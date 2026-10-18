@@ -17,7 +17,7 @@ def positive_density_float(value: str) -> float:
             raise argparse.ArgumentTypeError("Density must be positive")
         return fvalue
     except ValueError:
-        raise argparse.ArgumentTypeError("Density must float number")
+        raise argparse.ArgumentTypeError("Density must be a float number")
 
 
 def main() -> None:
