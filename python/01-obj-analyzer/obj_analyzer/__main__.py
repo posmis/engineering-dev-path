@@ -49,8 +49,6 @@ def main() -> None:
         print(f"Dimensions: {dx:.2f} x {dy:.2f} x {dz:.2f} mm")
         print()
 
-        print(opened_object.vt)
-
         total_area: float = 0.0
         total_volume: float = 0.0
         total_mass: float = 0.0
