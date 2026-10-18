@@ -1,0 +1,6 @@
+# Broken file: the face references vertex 99, but only 3 vertices exist.
+# Expected: a clear error message (which line, which index), no traceback.
+v 0 0 0
+v 1 0 0
+v 0 1 0
+f 1 2 99

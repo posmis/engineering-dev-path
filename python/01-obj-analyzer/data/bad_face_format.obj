@@ -1,0 +1,8 @@
+# Broken file: face vertex "1/1/1/1" has four parts (max is v/vt/vn).
+# Expected: a clear error message mentioning the bad token, no traceback.
+v 0 0 0
+v 1 0 0
+v 0 1 0
+vt 0 0
+vn 0 0 1
+f 1/1/1/1 2 3
