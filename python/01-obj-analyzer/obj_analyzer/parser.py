@@ -8,7 +8,7 @@ def parse_obj_file(file_name: str) -> ObjData:
     vertex_textures = []
     vertex_normals = []
 
-    current_mesh = ObjMesh(None, [])
+    current_mesh = ObjMesh('unnamed', [])
     meshes = [current_mesh]
 
     with open(file_name, "r", encoding="UTF-8") as file:
@@ -17,7 +17,7 @@ def parse_obj_file(file_name: str) -> ObjData:
             if not parts:
                 continue
             elif parts[0] == "o":
-                name = " ".join(parts[1:]) or None
+                name = " ".join(parts[1:]) or "unnamed"
                 current_mesh = ObjMesh(name, [])
                 meshes.append(current_mesh)
             elif parts[0] == "v":
@@ -27,26 +27,35 @@ def parse_obj_file(file_name: str) -> ObjData:
             elif parts[0] == "vn":
                 vertex_normals.append(tuple(map(float, parts[1:4])))
             elif parts[0] == "f":
-                current_mesh.faces.append(parse_face(parts[1:]))
+                current_mesh.faces.append(
+                    parse_face(parts[1:], (len(vertices), len(vertex_textures), len(vertex_normals))))
     meshes = [mesh for mesh in meshes if mesh.faces]
 
     return ObjData(file_name, vertices, vertex_textures, vertex_normals, meshes)
 
 
-def parse_face(parts: list[str]) -> list[FaceVertex]:
+def parse_face(parts: list[str], counts: tuple[int, int, int]) -> list[FaceVertex]:
     face = []
     for part in parts:
-        indices = list(map(parse_index, part.split('/')))
-        for _ in range(3 - len(indices)):
-            indices.append(None)
+        indices_text = part.split("/")
+        indices_text += [""] * (3 - len(indices_text))
+        if len(indices_text) > 3:
+            raise ValueError(f"Invalid face vertex {part!r} (expected v, v/vt, v//vn or v/vt/vn)")
 
-        v, vt, vn = indices
+        v, vt, vn = (parse_index(index_text, count) for index_text, count in zip(indices_text, counts))
 
         face.append(FaceVertex(v, vt, vn))
     return face
 
 
-def parse_index(text: str) -> int | None:
-    if not text:
+def parse_index(index_text: str, count: int) -> int | None:
+    if not index_text:
         return None
-    return int(text) - 1
+    index = int(index_text)
+    if index == 0:
+        raise ValueError("Face index 0 is invalid (OBJ indices start at 1)")
+    if abs(index) > count:
+        raise ValueError(f"Face index {index} is out of range (only {count} available)")
+    if index < 0:
+        return count + index
+    return index - 1

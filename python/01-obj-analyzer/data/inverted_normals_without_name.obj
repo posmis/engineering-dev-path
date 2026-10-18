@@ -1,0 +1,17 @@
+# Right tetrahedron with 10 mm legs, all faces listed CLOCKWISE (normals point inward).
+# Expected: volume 166.67 mm^3 (positive!) plus a warning about inverted normals.
+
+v 0 0 0
+v 10 0 0
+v 0 10 0
+v 0 0 10
+f 1 2 3
+f 1 4 2
+f 1 3 4
+f 2 4 3
+
+o
+f 1 2 3
+f 1 4 2
+f 1 3 4
+f 2 4 3
