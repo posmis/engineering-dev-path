@@ -27,7 +27,6 @@ def positive_density_float(value: str) -> float:
 
 
 def main() -> None:
-    start = time.perf_counter()
     arg_parser = argparse.ArgumentParser(
         description="Calculate dimensions, surface area, volume and mass of an OBJ mesh."
     )
@@ -50,6 +49,8 @@ def main() -> None:
         opened_object = parse_obj_file(file_name)
         geom = CALC_ENGINE[args.engine]
 
+        start = time.perf_counter()
+
         opened_object.v = geom.scale_vertices(opened_object.v, scale_factor)
         dx, dy, dz = geom.bounding_box_size(opened_object.v)
 
@@ -59,43 +60,43 @@ def main() -> None:
         print(f"Dimensions: {dx:.2f} x {dy:.2f} x {dz:.2f} mm")
         print()
 
-        # total_area: float = 0.0
-        # total_volume: float = 0.0
-        # total_mass: float = 0.0
-        # for mesh in opened_object.meshes:
-        #     indices = face_indices(mesh.faces)
-        #     area = geom.surface_area(opened_object.v, indices)
-        #     volume = geom.object_volume(opened_object.v, indices)
-        #
-        #     if volume < 0:
-        #         print(
-        #             f"Warning: Volume value of {mesh.object_name} is negative, normals are probably inverted, value corrected",
-        #             file=sys.stderr)
-        #         volume = -volume
-        #
-        #     mass = volume * MM3_TO_CM3 * density
-        #
-        #     total_area += area
-        #     total_volume += volume
-        #     total_mass += mass
-        #
-        #     print(f"Surface area of {mesh.object_name}: {area:.2f} mm^2")
-        #     print(f"Volume of {mesh.object_name}: {volume:.2f} mm^3")
-        #     print(f"Mass of {mesh.object_name}: {mass:.2f} g")
-        #     print()
-        #
-        # print(f"Total surface area of {file_name}: {total_area:.2f} mm^2")
-        # print(f"Total volume of {file_name}: {total_volume:.2f} mm^3")
-        # print(f"Total mass of {file_name}: {total_mass:.2f} g")
-        # print()
+        total_area: float = 0.0
+        total_volume: float = 0.0
+        total_mass: float = 0.0
+        for mesh in opened_object.meshes:
+            indices = face_indices(mesh.faces)
+            area = geom.surface_area(opened_object.v, indices)
+            volume = geom.object_volume(opened_object.v, indices)
+
+            if volume < 0:
+                print(
+                    f"Warning: Volume value of {mesh.object_name} is negative, normals are probably inverted, value corrected",
+                    file=sys.stderr)
+                volume = -volume
+
+            mass = volume * MM3_TO_CM3 * density
+
+            total_area += area
+            total_volume += volume
+            total_mass += mass
+
+            print(f"Surface area of {mesh.object_name}: {area:.2f} mm^2")
+            print(f"Volume of {mesh.object_name}: {volume:.2f} mm^3")
+            print(f"Mass of {mesh.object_name}: {mass:.2f} g")
+            print()
+
+        print(f"Total surface area of {file_name}: {total_area:.2f} mm^2")
+        print(f"Total volume of {file_name}: {total_volume:.2f} mm^3")
+        print(f"Total mass of {file_name}: {total_mass:.2f} g")
+        print()
+
+        elapsed = time.perf_counter() - start
+        print(f"Elapsed: {elapsed * 1000:.1f} ms", file=sys.stderr)
 
     except FileNotFoundError:
         print(f"Error: File not found: {file_name}", file=sys.stderr)
     except ValueError as error:
         print(f"Error: {error}", file=sys.stderr)
-
-    elapsed = time.perf_counter() - start
-    print(f"Elapsed: {elapsed * 1000:.1f} ms", file=sys.stderr)
 
 
 if __name__ == "__main__":
