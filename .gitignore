@@ -29,4 +29,4 @@ Desktop.ini
 .DS_Store
 
 # obj
-./python/01-obj-analyzer/data/stone2.obj
+python/01-obj-analyzer/data/large/
