@@ -46,10 +46,12 @@ def main() -> None:
     density = args.density
     scale_factor = UNIT_TO_MM[args.unit]
     try:
+        time_start_parsing = time.perf_counter()
         opened_object = parse_obj_file(file_name)
-        geom = CALC_ENGINE[args.engine]
+        elapsed_parsing = time.perf_counter() - time_start_parsing
+        print(f"Parse time: {elapsed_parsing * 1000:.1f} ms", file=sys.stderr)
 
-        start = time.perf_counter()
+        geom = CALC_ENGINE[args.engine]
 
         opened_object.v = geom.scale_vertices(opened_object.v, scale_factor)
         dx, dy, dz = geom.bounding_box_size(opened_object.v)
@@ -63,6 +65,9 @@ def main() -> None:
         total_area: float = 0.0
         total_volume: float = 0.0
         total_mass: float = 0.0
+
+        time_start_calc = time.perf_counter()
+
         for mesh in opened_object.meshes:
             indices = face_indices(mesh.faces)
             area = geom.surface_area(opened_object.v, indices)
@@ -90,8 +95,8 @@ def main() -> None:
         print(f"Total mass of {file_name}: {total_mass:.2f} g")
         print()
 
-        elapsed = time.perf_counter() - start
-        print(f"Elapsed: {elapsed * 1000:.1f} ms", file=sys.stderr)
+        elapsed_cals = time.perf_counter() - time_start_calc
+        print(f"Calculation time: {elapsed_cals * 1000:.1f} ms", file=sys.stderr)
 
     except FileNotFoundError:
         print(f"Error: File not found: {file_name}", file=sys.stderr)

@@ -88,7 +88,7 @@ def count_of_segments(value: str) -> int:
             raise argparse.ArgumentTypeError("Segments must be at least 3")
         return value
     except ValueError:
-        raise argparse.ArgumentTypeError("Segments must be a integer number")
+        raise argparse.ArgumentTypeError("Segments must be an integer number")
 
 
 def main() -> None:
