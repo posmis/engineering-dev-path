@@ -71,21 +71,31 @@ def write_obj(path: str, name: str, vertices: list[Vec3], faces: list[list[int]]
             file.write(f"f {line}\n")
 
 
+def radius_value(value: str) -> float:
+    try:
+        fvalue = float(value)
+        if fvalue <= 0.0:
+            raise argparse.ArgumentTypeError("Radius must be more than 0")
+        return fvalue
+    except ValueError:
+        raise argparse.ArgumentTypeError("Radius must be a float number")
+
+
 def count_of_segments(value: str) -> int:
     try:
         value = int(value)
         if value < 3:
-            raise argparse.ArgumentTypeError("Density must be at least 3")
+            raise argparse.ArgumentTypeError("Segments must be at least 3")
         return value
     except ValueError:
-        raise argparse.ArgumentTypeError("Density must be a integer number")
+        raise argparse.ArgumentTypeError("Segments must be a integer number")
 
 
 def main() -> None:
     arg_parser = argparse.ArgumentParser(
         description="Generate a UV sphere mesh and save it as a Wavefront .obj file."
     )
-    arg_parser.add_argument("-r", "--radius", type=float, default=1.0,
+    arg_parser.add_argument("-r", "--radius", type=radius_value, default=1.0,
                             help="sphere radius in mm (default: %(default)s)")
     arg_parser.add_argument("-s", "--segments", type=count_of_segments, default=5,
                             help="number of divisions in latitude and longitude, at least 3; "
